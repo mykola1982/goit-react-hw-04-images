@@ -45,7 +45,11 @@ export class App extends Component {
   }
 
   handelSubmitForm = query => {
-    this.setState({ query });
+    if (query.trim() === '') {
+      return toast.error('Enter data to search');
+    }
+
+    this.setState({ images: [], page: 1, query });
   };
 
   render() {

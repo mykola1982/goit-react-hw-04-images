@@ -1,7 +1,7 @@
 import React from 'react';
 import { Formik } from 'formik';
 import * as yup from 'yup';
-import { toast } from 'react-toastify';
+import PropTypes from 'prop-types';
 
 import {
   SearchHeader,
@@ -14,16 +14,12 @@ import {
 const initialValues = { query: '' };
 
 const schema = yup.object().shape({
-  query: yup.string().required(),
+  query: yup.string(),
 });
 
 export const Searchbar = ({ onSubmit }) => {
   const handleSubmit = ({ query }, { resetForm }) => {
-    if (query.trim() === '') {
-      toast.error('Enter data to search');
-      resetForm();
-      return;
-    }
+    console.log(query);
     onSubmit(query);
     resetForm();
   };
@@ -49,4 +45,8 @@ export const Searchbar = ({ onSubmit }) => {
       </Formik>
     </SearchHeader>
   );
+};
+
+Searchbar.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
 };
