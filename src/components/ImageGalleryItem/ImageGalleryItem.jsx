@@ -6,7 +6,7 @@ export class ImageGalleryItem extends Component {
   state = {
     showModal: false,
   };
-
+  // добавить пропси
   openModal = () => {
     this.setState({ showModal: true });
   };

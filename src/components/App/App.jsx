@@ -1,36 +1,46 @@
+import React from 'react';
 import { Component } from 'react';
-import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import { Section } from 'components/Section';
 import { Searchbar } from '../Searchbar';
 import { ImageGallery } from 'components/ImageGallery';
 import { Loader } from 'components/Loader';
-
+import { Button } from 'components/Button';
 import { Container } from './App.styled';
 
-axios.defaults.baseURL = 'https://pixabay.com/api/';
-const API_KEY = '30473634-1b924b529feef7019e04708d2';
+import * as API from '../../api/pixabayAPI';
 
 export class App extends Component {
   state = {
-    images: [],
+    images: null,
     query: '',
     isLoading: false,
     error: null,
   };
 
-  async componentDidMount() {
-    this.setState({ isLoading: true });
+  async componentDidUpdate(_, prevState) {
+    if (prevState.query !== this.state.query) {
+      this.setState({ isLoading: true, images: null });
+      // скидаємо картинки при новому пошуку як зробити щоб не скидались при лоад не знаю ще images: null
 
-    try {
-      const url = `?q=${this.state.query}&page=1&key=${API_KEY}&image_type=photo&orientation=horizontal&per_page=12`;
-      const { data } = await axios.get(url);
+      try {
+        const { hits, totalHits } = await API.fetchImages(this.state.query);
+        this.setState({ images: hits });
 
-      this.setState({ images: data.hits });
-    } catch (error) {
-      this.setState({ error });
-    } finally {
-      this.setState({ isLoading: false });
+        if (totalHits === 0) {
+          toast(
+            'Sorry, there are no images matching your search query. Please try again.'
+          );
+        } else {
+          toast(`Hooray! We found ${totalHits} images.`);
+        }
+      } catch (error) {
+        this.setState({ error });
+      } finally {
+        this.setState({ isLoading: false });
+      }
     }
   }
 
@@ -46,9 +56,12 @@ export class App extends Component {
         <Searchbar onSubmit={this.handelSubmitForm} />
         {error && <p>Whoops, something went wrong: {error.message}</p>}
         <Section>
-          {isLoading > 0 && <Loader />}
+          {isLoading && <Loader />}
           {images && <ImageGallery images={images} />}
+
+          <Button />
         </Section>
+        <ToastContainer />
       </Container>
     );
   }

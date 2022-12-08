@@ -14,12 +14,19 @@ export const ModalContet = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  min-height: 300px;
+  height: 400px;
   max-width: 600px;
   width: 100%;
   background-color: #fff;
   box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.12), 0px 1px 1px rgba(0, 0, 0, 0.14),
     0px 2px 1px rgba(0, 0, 0, 0.2);
   border-radius: 4px;
-  padding: 16px;
+  border: 2px solid #fff;
+
+  & img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 4px;
+  }
 `;

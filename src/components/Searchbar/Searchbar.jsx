@@ -1,6 +1,7 @@
 import React from 'react';
 import { Formik } from 'formik';
 import * as yup from 'yup';
+import { toast } from 'react-toastify';
 
 import {
   SearchHeader,
@@ -18,6 +19,11 @@ const schema = yup.object().shape({
 
 export const Searchbar = ({ onSubmit }) => {
   const handleSubmit = ({ query }, { resetForm }) => {
+    if (query.trim() === '') {
+      toast.error('Enter data to search');
+      resetForm();
+      return;
+    }
     onSubmit(query);
     resetForm();
   };
