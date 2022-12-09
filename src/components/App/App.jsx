@@ -48,8 +48,6 @@ export class App extends Component {
           );
         }
         if (this.state.page === 1 && totalHits !== 0) {
-          console.log(this.state.page);
-          console.log(totalHits);
           toast(`Hooray! We found ${totalHits} images.`);
         }
       } catch (error) {
