@@ -16,24 +16,40 @@ export class App extends Component {
   state = {
     images: null,
     query: '',
+    page: 1,
     isLoading: false,
     error: null,
+    totalHits: null,
   };
 
   async componentDidUpdate(_, prevState) {
-    if (prevState.query !== this.state.query) {
-      this.setState({ isLoading: true, images: null });
-      // скидаємо картинки при новому пошуку як зробити щоб не скидались при лоад не знаю ще images: null
+    if (
+      prevState.query !== this.state.query ||
+      prevState.page !== this.state.page
+    ) {
+      this.setState({ isLoading: true });
 
       try {
-        const { hits, totalHits } = await API.fetchImages(this.state.query);
-        this.setState({ images: hits });
+        const { hits, totalHits } = await API.fetchImages(
+          this.state.query,
+          this.state.page
+        );
+
+        this.setState(prevState => {
+          return {
+            images: [...prevState.images, ...hits],
+            totalHits,
+          };
+        });
 
         if (totalHits === 0) {
           toast(
             'Sorry, there are no images matching your search query. Please try again.'
           );
-        } else {
+        }
+        if (this.state.page === 1 && totalHits !== 0) {
+          console.log(this.state.page);
+          console.log(totalHits);
           toast(`Hooray! We found ${totalHits} images.`);
         }
       } catch (error) {
@@ -52,8 +68,12 @@ export class App extends Component {
     this.setState({ images: [], page: 1, query });
   };
 
+  handleButtomLoad = () => {
+    this.setState(prevState => ({ page: prevState.page + 1 }));
+  };
+
   render() {
-    const { images, isLoading, error } = this.state;
+    const { images, isLoading, error, totalHits, page } = this.state;
 
     return (
       <Container>
@@ -63,7 +83,9 @@ export class App extends Component {
           {isLoading && <Loader />}
           {images && <ImageGallery images={images} />}
 
-          <Button />
+          {images && totalHits - page * 12 > 0 && (
+            <Button onClick={this.handleButtomLoad} />
+          )}
         </Section>
         <ToastContainer />
       </Container>

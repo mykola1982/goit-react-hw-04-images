@@ -13,6 +13,7 @@ export const Item = styled.li`
     scale: 1.05;
   }
 `;
+
 export const Image = styled.img`
   height: 100%;
   width: 100%;

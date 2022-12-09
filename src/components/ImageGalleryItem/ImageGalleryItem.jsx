@@ -1,12 +1,18 @@
 import { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Item, Image } from './ImageGalleryItem.styled';
-import { Modal } from 'components/Modal/Modal';
+import { Modal } from 'components/Modal';
 
 export class ImageGalleryItem extends Component {
   state = {
     showModal: false,
   };
-  // добавить пропси
+
+  static propTypes = {
+    webformatURL: PropTypes.string.isRequired,
+    largeImageURL: PropTypes.string.isRequired,
+    tags: PropTypes.string.isRequired,
+  };
   openModal = () => {
     this.setState({ showModal: true });
   };

@@ -19,7 +19,6 @@ const schema = yup.object().shape({
 
 export const Searchbar = ({ onSubmit }) => {
   const handleSubmit = ({ query }, { resetForm }) => {
-    console.log(query);
     onSubmit(query);
     resetForm();
   };

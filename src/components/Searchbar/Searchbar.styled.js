@@ -26,6 +26,7 @@ export const Input = styled(Field)`
   border-radius: 4px;
   padding-left: 35px;
 `;
+
 export const Button = styled.button`
   position: absolute;
   top: 0;
@@ -38,6 +39,7 @@ export const Button = styled.button`
   border-radius: 4px;
   color: #fff;
   transition: background-color 250ms linear;
+
   &:hover,
   :focus {
     background-color: #f7f7f7;
