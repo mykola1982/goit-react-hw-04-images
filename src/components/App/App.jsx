@@ -3,6 +3,7 @@ import { Component } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+import { imagesMaper } from '../../utils/imagesmaper';
 import { Section } from 'components/Section';
 import { Searchbar } from '../Searchbar';
 import { ImageGallery } from 'components/ImageGallery';
@@ -37,7 +38,7 @@ export class App extends Component {
 
         this.setState(prevState => {
           return {
-            images: [...prevState.images, ...hits],
+            images: [...prevState.images, ...imagesMaper(hits)],
             totalHits,
           };
         });
