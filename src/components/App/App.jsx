@@ -71,9 +71,9 @@ export const App = () => {
       {error && <p>Whoops, something went wrong: {error.message}</p>}
       <Section>
         {isLoading && <Loader />}
-        {images && <ImageGallery images={images} />}
+        {images.length > 0 && <ImageGallery images={images} />}
 
-        {images && totalImages - page * 12 > 0 && (
+        {images.length > 0 && totalImages - page * 12 > 0 && (
           <Button onClick={handleButtomLoad} />
         )}
       </Section>
